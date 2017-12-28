@@ -1,0 +1,21 @@
+//
+//  PrefixHeader.pch
+//  NestedPage
+//
+//  Created by Xing on 2017/12/27.
+//  Copyright © 2017年 HasjOH. All rights reserved.
+//
+
+#ifndef PrefixHeader_pch
+#define PrefixHeader_pch
+
+#import "UIView+Extension.h"
+#import "Masonry.h"
+
+#define SEGMENT_HEIGHT 44
+#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
+#define RGBA(r,g,b,a) [UIColor colorWithRed:r green:g blue:b alpha:a]
+#define DEFAULT_BACKGROUND_COLOR RGBA(0.96, 0.96, 0.96, 1.0f)
+
+#endif /* PrefixHeader_pch */
