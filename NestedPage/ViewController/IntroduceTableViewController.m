@@ -40,13 +40,13 @@ NS_ENUM(NSInteger, CellTyle) {
     CGFloat headerHeight = SCREEN_HEIGHT / 6 + SEGMENT_HEIGHT;
     // 假的tableview，高度同GameDetailHeadView
     self.tableView.tableHeaderView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, self.view.width, headerHeight)];
-
+    
     self.showMoreContent = NO;
-
+    
     self.tableView.estimatedRowHeight = 0;
     self.tableView.estimatedSectionFooterHeight = 0;
     self.tableView.estimatedSectionHeaderHeight = 0;
-
+    
 }
 
 #pragma mark - tableView dataSource
@@ -74,47 +74,15 @@ NS_ENUM(NSInteger, CellTyle) {
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
         case CellTyleIntroduceImage:{
-            ImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellID0];
-            if (!cell) {
-                cell = [[ImageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellID0];
-            }
-            return cell;
+            return [self cellTyleIntroduceImageForTableView:tableView];
             break;
         }
         case CellTypeContentText:{
-            __weak __typeof(self) weakSelf = self;
-            
-            ContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellID1];
-            if (!cell) {
-                cell = [[ContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                                   reuseIdentifier:kCellID1];
-                self.contentString = @"";
-                
-                for (int i = 0; i < 150; i++) {
-                    self.contentString = [self.contentString stringByAppendingString:@"介绍"];
-                }
-                cell.showMoreContent = self.isShowMoreContent;
-                cell.gameIntroduce = self.contentString;
-                cell.indexPath = indexPath;
-                __weak __typeof(cell) weakCell = cell;
-                cell.showMoreBlock = ^(NSIndexPath *indexPath) {
-                    weakCell.showMoreContent = weakSelf.isShowMoreContent;
-                    weakSelf.showMoreContent = !weakSelf.isShowMoreContent;
-                    [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath]
-                                              withRowAnimation:UITableViewRowAnimationFade];
-                };
-            }
-            return cell;
+            return [self cellTypeContentTextForTableView:tableView indexPath:indexPath];
             break;
         }
         case CellTypeRelatedList:{
-            UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellID2];
-            if (!cell) {
-                cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
-                                              reuseIdentifier:kCellID2];
-            }
-            cell.textLabel.text = [@"游戏相关条目" stringByAppendingString:[NSString stringWithFormat:@"%ld", indexPath.row+1]];
-            return cell;
+            return [self cellTypeRelatedListForTableView:tableView indexPath:indexPath];
             break;
         }
         default:
@@ -122,6 +90,51 @@ NS_ENUM(NSInteger, CellTyle) {
     }
     return nil;
 }
+
+- (UITableViewCell *)cellTyleIntroduceImageForTableView:(UITableView *)tableView {
+    ImageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellID0];
+    if (!cell) {
+        cell = [[ImageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:kCellID0];
+    }
+    return cell;
+}
+
+- (UITableViewCell *)cellTypeContentTextForTableView:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
+    __weak __typeof(self) weakSelf = self;
+    
+    ContentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellID1];
+    if (!cell) {
+        cell = [[ContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                           reuseIdentifier:kCellID1];
+        self.contentString = @"";
+        
+        for (int i = 0; i < 150; i++) {
+            self.contentString = [self.contentString stringByAppendingString:@"介绍"];
+        }
+        cell.showMoreContent = self.isShowMoreContent;
+        cell.gameIntroduce = self.contentString;
+        cell.indexPath = indexPath;
+        __weak __typeof(cell) weakCell = cell;
+        cell.showMoreBlock = ^(NSIndexPath *indexPath) {
+            weakCell.showMoreContent = weakSelf.isShowMoreContent;
+            weakSelf.showMoreContent = !weakSelf.isShowMoreContent;
+            [weakSelf.tableView reloadRowsAtIndexPaths:@[indexPath]
+                                      withRowAnimation:UITableViewRowAnimationFade];
+        };
+    }
+    return cell;
+}
+
+- (UITableViewCell *)cellTypeRelatedListForTableView:(UITableView *)tableView indexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellID2];
+    if (!cell) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault
+                                      reuseIdentifier:kCellID2];
+    }
+    cell.textLabel.text = [@"游戏相关条目" stringByAppendingString:[NSString stringWithFormat:@"%ld", indexPath.row+1]];
+    return cell;
+}
+
 
 #pragma mark - tableView delegate
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -196,3 +209,4 @@ NS_ENUM(NSInteger, CellTyle) {
 }
 
 @end
+
