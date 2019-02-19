@@ -1,3 +1,4 @@
 # NestedPage
-多重嵌套式页面，gif：http://hasjoh.cc/2017/12/28/iOS-多重嵌套式页面/
+多重嵌套式页面，地址https://juejin.im/post/5a8fe2e16fb9a063592be880
+gif：![](https://user-gold-cdn.xitu.io/2018/2/23/161c20e086157b27?w=362&h=628&f=gif&s=5371927)
 
